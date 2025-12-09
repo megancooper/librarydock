@@ -1,0 +1,153 @@
+.sync-status-card {
+  background: white;
+  border-radius: 12px;
+  padding: 1.5rem;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.sync-status-card h2 {
+  margin-bottom: 1.5rem;
+  font-size: 1.3rem;
+  color: #333;
+}
+
+.sync-info {
+  margin-bottom: 1.5rem;
+}
+
+.status-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.75rem 0;
+  border-bottom: 1px solid #eee;
+}
+
+.status-row:last-child {
+  border-bottom: none;
+}
+
+.label {
+  font-weight: 600;
+  color: #666;
+}
+
+.value {
+  color: #333;
+}
+
+.status-badge {
+  padding: 0.25rem 0.75rem;
+  border-radius: 12px;
+  font-size: 0.85rem;
+  font-weight: 600;
+  text-transform: uppercase;
+}
+
+.status-badge.syncing {
+  background: #ffc107;
+  color: #000;
+}
+
+.status-badge.synced {
+  background: #28a745;
+  color: white;
+}
+
+.status-badge.error {
+  background: #dc3545;
+  color: white;
+}
+
+.status-badge.pending {
+  background: #6c757d;
+  color: white;
+}
+
+.sync-loading {
+  padding: 2rem 0;
+  text-align: center;
+  color: #666;
+}
+
+.error-box {
+  background: #fff3cd;
+  border: 1px solid #ffc107;
+  border-radius: 6px;
+  padding: 1rem;
+  margin-top: 1rem;
+  color: #856404;
+}
+
+.sync-btn {
+  width: 100%;
+  padding: 0.75rem;
+  background: #667eea;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-weight: 600;
+  font-size: 1rem;
+  margin-bottom: 1.5rem;
+}
+
+.sync-btn:hover {
+  background: #5568d3;
+}
+
+.sync-info-box {
+  background: #f8f9fa;
+  border-radius: 8px;
+  padding: 1rem;
+}
+
+.sync-info-box h3 {
+  font-size: 1rem;
+  margin-bottom: 0.5rem;
+  color: #333;
+}
+
+.sync-info-box p {
+  font-size: 0.85rem;
+  color: #666;
+  line-height: 1.5;
+  margin: 0;
+}
+
+@media (prefers-color-scheme: dark) {
+  .sync-status-card {
+    background: #2a2a2a;
+  }
+
+  .sync-status-card h2 {
+    color: #e0e0e0;
+  }
+
+  .status-row {
+    border-bottom-color: #444;
+  }
+
+  .label {
+    color: #b0b0b0;
+  }
+
+  .value {
+    color: #e0e0e0;
+  }
+
+  .sync-loading {
+    color: #b0b0b0;
+  }
+
+  .sync-info-box {
+    background: #1a1a1a;
+  }
+
+  .sync-info-box h3 {
+    color: #e0e0e0;
+  }
+
+  .sync-info-box p {
+    color: #b0b0b0;
+  }
+}

@@ -1,0 +1,23 @@
+{
+  "name": "@librarydock/api",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "tsx watch src/index.ts",
+    "build": "tsc",
+    "start": "node dist/index.js",
+    "lint": "tsc --noEmit"
+  },
+  "dependencies": {
+    "@librarydock/types": "*",
+    "@hono/node-server": "^1.4.1",
+    "hono": "^3.12.0"
+  },
+  "devDependencies": {
+    "@librarydock/tsconfig": "*",
+    "@types/node": "^20.10.6",
+    "tsx": "^4.7.0",
+    "typescript": "^5.3.3"
+  }
+}
