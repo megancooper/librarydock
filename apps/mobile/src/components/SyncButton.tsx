@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { View, Text, StyleSheet, TouchableOpacity, ActivityIndicator } from 'react-native';
+import { API_BASE_URL } from '../config';
 
 interface SyncButtonProps {
   onSync: () => Promise<void>;
@@ -11,7 +12,7 @@ const SyncButton = ({ onSync }: SyncButtonProps) => {
   const handleSync = async () => {
     setIsSyncing(true);
     try {
-      await fetch('http://localhost:3001/api/sync/trigger', { method: 'POST' });
+      await fetch(`${API_BASE_URL}/api/sync/trigger`, { method: 'POST' });
       await onSync();
     } catch (error) {
       console.error('Sync failed:', error);

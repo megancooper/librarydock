@@ -11,6 +11,7 @@ import {
 import type { Ebook } from '@librarydock/types';
 import EbookList from './components/EbookList';
 import SyncButton from './components/SyncButton';
+import { API_BASE_URL } from './config';
 
 const App = () => {
   const isDarkMode = useColorScheme() === 'dark';
@@ -22,8 +23,7 @@ const App = () => {
 
   const fetchEbooks = async () => {
     try {
-      // In production, use actual API URL from config
-      const response = await fetch('http://localhost:3001/api/ebooks');
+      const response = await fetch(`${API_BASE_URL}/api/ebooks`);
       if (response.ok) {
         const data = await response.json();
         setEbooks(data);

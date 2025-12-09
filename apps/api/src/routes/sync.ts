@@ -12,6 +12,9 @@ let currentSyncStatus: SyncStatus = {
   status: 'synced',
 };
 
+// Store the current sync timeout to prevent multiple concurrent syncs
+let syncTimeoutId: NodeJS.Timeout | null = null;
+
 // Get sync status
 syncRouter.get('/status', (c) => {
   return c.json(currentSyncStatus);
@@ -20,6 +23,11 @@ syncRouter.get('/status', (c) => {
 // Trigger sync
 syncRouter.post('/trigger', async (c) => {
   try {
+    // Clear any existing sync timeout
+    if (syncTimeoutId) {
+      clearTimeout(syncTimeoutId);
+    }
+
     // Update status to syncing
     currentSyncStatus = {
       ...currentSyncStatus,
@@ -28,12 +36,13 @@ syncRouter.post('/trigger', async (c) => {
 
     // In production, this would trigger a Syncthing sync
     // For demo, simulate a sync operation
-    setTimeout(() => {
+    syncTimeoutId = setTimeout(() => {
       currentSyncStatus = {
         ...currentSyncStatus,
         status: 'synced',
         lastSyncTime: new Date(),
       };
+      syncTimeoutId = null;
     }, 3000);
 
     return c.json({ message: 'Sync triggered successfully' });

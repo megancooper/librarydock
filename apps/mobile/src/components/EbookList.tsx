@@ -83,7 +83,7 @@ const styles = StyleSheet.create({
     color: '#e0e0e0',
   },
   list: {
-    gap: 16,
+    paddingBottom: 16,
   },
   card: {
     backgroundColor: '#ffffff',
@@ -117,7 +117,7 @@ const styles = StyleSheet.create({
     color: '#667eea',
   },
   cardContent: {
-    gap: 8,
+    paddingTop: 4,
   },
   title: {
     fontSize: 18,
