@@ -1,0 +1,62 @@
+{
+  "name": "@librarydock/source",
+  "version": "0.0.0",
+  "license": "MIT",
+  "private": true,
+  "scripts": {
+    "start:web": "nx serve web",
+    "start:api": "nx serve api",
+    "build:web": "nx build web",
+    "build:api": "nx build api",
+    "test": "nx run-many -t test",
+    "lint": "nx run-many -t lint",
+    "format": "nx format:write",
+    "dev": "docker-compose up --build",
+    "dev:detach": "docker-compose up --build -d",
+    "dev:stop": "docker-compose down",
+    "dev:logs": "docker-compose logs -f",
+    "syncthing:start": "docker-compose up -d syncthing && echo '✅ Syncthing started at http://localhost:8385'",
+    "syncthing:stop": "docker-compose down",
+    "syncthing:logs": "docker-compose logs -f syncthing",
+    "syncthing:restart": "docker-compose restart syncthing"
+  },
+  "devDependencies": {
+    "@nx/eslint": "20.2.2",
+    "@nx/eslint-plugin": "20.2.2",
+    "@nx/js": "20.2.2",
+    "@nx/react": "20.2.2",
+    "@nx/vite": "20.2.2",
+    "@nx/web": "20.2.2",
+    "@types/node": "22.10.1",
+    "@types/react": "18.3.14",
+    "@types/react-dom": "18.3.2",
+    "@typescript-eslint/eslint-plugin": "8.17.0",
+    "@typescript-eslint/parser": "8.17.0",
+    "@vitejs/plugin-react": "4.3.4",
+    "eslint": "9.16.0",
+    "eslint-config-prettier": "9.1.0",
+    "nx": "20.2.2",
+    "prettier": "3.4.2",
+    "typescript": "5.7.2",
+    "vite": "5.4.11"
+  },
+  "dependencies": {
+    "@hono/node-server": "1.13.7",
+    "@libsql/client": "^0.15.15",
+    "@prisma/adapter-libsql": "^7.1.0",
+    "@prisma/client": "^7.1.0",
+    "@tailwindcss/postcss": "^4.2.0",
+    "@tanstack/react-router": "^1.161.1",
+    "dotenv": "^17.2.3",
+    "hono": "4.6.13",
+    "postcss": "^8.5.6",
+    "prisma": "^7.1.0",
+    "react": "18.3.1",
+    "react-dom": "18.3.1",
+    "tailwindcss": "^4.2.0"
+  },
+  "workspaces": [
+    "apps/*",
+    "libs/*"
+  ]
+}

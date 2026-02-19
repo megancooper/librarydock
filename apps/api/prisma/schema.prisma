@@ -1,0 +1,127 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+}
+
+// User model for authentication and user management
+model User {
+  id        String   @id @default(uuid())
+  email     String   @unique
+  name      String?
+  password  String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  // Relations
+  ebooks          Ebook[]
+  settings        Settings?
+  readingProgress ReadingProgress[]
+}
+
+// Application settings per user
+model Settings {
+  id                   String   @id @default(uuid())
+  userId               String   @unique
+  user                 User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  
+  // Syncthing configuration
+  syncthingUrl         String   @default("http://localhost:8384")
+  syncthingApiKey      String?
+  autoSync             Boolean  @default(true)
+  syncIntervalMinutes  Int      @default(15)
+  
+  // Library configuration - path to actual ebook files on disk
+  libraryPath          String   @default("./library")
+  
+  // UI preferences
+  theme                String   @default("system") // "light", "dark", "system"
+  defaultView          String   @default("grid")   // "grid", "list"
+  
+  createdAt            DateTime @default(now())
+  updatedAt            DateTime @updatedAt
+}
+
+// Ebook METADATA only - actual files live in libraryPath folder
+model Ebook {
+  id          String   @id @default(uuid())
+  userId      String
+  user        User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  
+  // File reference (NOT the file itself - just metadata)
+  filename    String            // e.g., "my-book.epub" - actual file in libraryPath
+  format      String            // epub, pdf, mobi, azw3, fb2, txt
+  fileSize    Int               // Size in bytes (for display)
+  fileHash    String?           // SHA256 hash for sync verification
+  
+  // Metadata (extracted from file or user-provided)
+  title       String
+  author      String?
+  description String?
+  coverPath   String?           // Relative path to cover image in library
+  isbn        String?
+  publisher   String?
+  publishedDate String?
+  language    String?
+  
+  // Organization
+  tags        Tag[]
+  
+  // Sync status
+  syncStatus  String   @default("pending") // pending, synced, syncing, error
+  lastSyncAt  DateTime?
+  
+  // Reading progress
+  readingProgress ReadingProgress[]
+  
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  @@unique([userId, filename])  // One entry per file per user
+  @@index([userId])
+  @@index([syncStatus])
+}
+
+// Track reading progress across devices
+model ReadingProgress {
+  id          String   @id @default(uuid())
+  userId      String
+  user        User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  ebookId     String
+  ebook       Ebook    @relation(fields: [ebookId], references: [id], onDelete: Cascade)
+  
+  // Progress data
+  currentPage Int?
+  totalPages  Int?
+  percentage  Float    @default(0)
+  cfi         String?  // EPUB CFI location for precise position
+  
+  // Last read info
+  lastReadAt  DateTime @default(now())
+  deviceId    String?  // Which device this progress came from
+  
+  updatedAt   DateTime @updatedAt
+
+  @@unique([userId, ebookId])
+}
+
+// Tags for organizing ebooks
+model Tag {
+  id     String  @id @default(uuid())
+  name   String  @unique
+  color  String?
+  ebooks Ebook[]
+}
+
+// Sync event log
+model SyncEvent {
+  id        String   @id @default(uuid())
+  type      String   // scan_started, scan_completed, file_added, file_removed, sync_error
+  details   String?  // JSON string with additional info
+  createdAt DateTime @default(now())
+}
